@@ -1,211 +1,90 @@
-# Roadmap rozwoju startera
-
-## Cel dokumentu
-
-Ten dokument jest mapą rozwoju repozytorium `dotnet-react-starter`. Starter ma być długoterminową bazą edukacyjną dla aplikacji opartych przede wszystkim o:
-
-- C# i .NET;
-- ASP.NET Core Web API;
-- EF Core i PostgreSQL;
-- bezpieczeństwo aplikacji webowych;
-- projektowanie domeny;
-- testowanie i niezawodność systemów;
-- wdrażanie aplikacji backendowych.
-
-Frontend React + TypeScript pozostaje funkcjonalną warstwą demonstracyjną. Ma działać poprawnie i pokazywać pełne przepływy użytkownika, ale głównym celem nauki jest backend.
-
-## Jak czytać wersje
-
-Wersje `V1`, `V2` itd. nie są terminami kalendarzowymi ani obowiązkowymi release'ami. Oznaczają kolejne poziomy dojrzałości technicznej:
-
-| Etap | Znaczenie |
-|---|---|
-| V1 | Aktualny szybki projekt juniorowy, który pokazuje szerokie fundamenty. |
-| V2 | Stabilizacja, bezpieczeństwo i spójność istniejących mechanizmów. |
-| V3 | Domena, granice modułów, pilotaż Vertical Slice Architecture, transakcje i współbieżność. |
-| V4 | Kompletność produktu i pełniejsze przepływy użytkownika. |
-| V5 | Deployment, operacje i utrzymanie środowiska. |
-| V6 | Pomiar wydajności, niezawodność i zachowanie pod obciążeniem. |
-| V7 | Kontrolowana ewolucja architektury; zaakceptowany tor MediatR jest ukończony, a pozostałe kierunki zależą od potrzeb produktu. |
-| V8 | Platformizacja sprawdzonych modułów i przygotowanie startera do wielokrotnego użycia. |
-
-Etap można uznać za ukończony dopiero wtedy, gdy istnieją kod, testy, dokumentacja i możliwość wyjaśnienia najważniejszych kompromisów.
-
-## Aktualna ocena
-
-Starter jest obecnie **mocną bazą juniorową z wieloma elementami junior+**. Zawiera więcej niż klasyczny CRUD:
-
-- modularny monolit z warstwami API, Application, Domain, Infrastructure i Shared;
-- JWT, refresh-token rotation, HttpOnly cookie, email confirmation, 2FA, TOTP i recovery codes;
-- PostgreSQL, EF Core, migracje, indeksy i konfiguracje relacji;
-- projekty, zadania, członkostwo, zaproszenia, komentarze, załączniki, aktywność i powiadomienia;
-- paginację i filtrowanie zadań;
-- logowanie strukturalne, correlation ID, health checks i workery;
-- testy jednostkowe, integracyjne, PostgreSQL Testcontainers i smoke tests;
-- Docker Compose oraz CI.
-
-Najważniejsze braki nie polegają obecnie na braku kolejnych endpointów. Dotyczą:
-
-- jednego prostego golden path dla kompletnego command/query slice'a;
-- spójności kontraktów Notifications między backendem i frontendem;
-- potwierdzenia wall-clock kosztu ręcznego tworzenia kolejnych slice'ów po
-  pierwszym proofie V8;
-- jawnej, testowalnej macierzy uprawnień przed dodaniem kolejnych workflowów;
-- zachowania klienta po reconnect, retry i konflikcie;
-- dalszych pomiarów wydajności oraz kosztu ręcznego tworzenia slice'ów;
-- runtime evidence dla stagingu, backupu, restore, rollbacku i alertów.
-
-## Status realizacji roadmapy
-
-Stan na: **2026-09-26**.
-
-Procent opisuje realizację głównych obszarów danego etapu, a nie liczbę linii kodu. `100%` oznacza spełniony obszar wraz z testem, dokumentacją albo zaakceptowaną decyzją. `50%` oznacza istniejący fundament bez pełnego Definition of Done, a `0%` oznacza brak rozpoczętej realizacji. Postęp bazowej roadmapy jest średnią arytmetyczną etapów V1-V7 i nie jest miarą gotowości produkcyjnej. V8 jest późniejszym etapem platformizacji i nie jest wliczany do postępu bazowej aplikacji.
-
-| Etap | Postęp | Status | Najważniejszy dowód lub brak |
-|---|---:|---|---|
-| V1 | 100% | Ukończony | Fundament aplikacji, testy i lokalny workflow są dostępne. |
-| V2 | 96% | Ukończony dla bieżącego zakresu | Hardening auth, API, async i konfiguracji jest zwalidowany; pozostały drobne follow-upy porządkowe. |
-| V3 | 65% | W toku; pilot VSA ukończony | `Projects`, `ProjectTasks` i `Notifications` potwierdzają backendowy standard slice'a, jawne porty, modułowe DI i guardrails. Pozostałe prace V3 dotyczą granic domenowych, starszych modeli i domknięcia kontraktów, nie masowej migracji folderów. |
-| V4 | 78% | Domykanie kontraktów i dowodów | Account security audit, autoryzowany workspace search, produkcyjny lifecycle załączników oraz bazowa macierz browser E2E są zaimplementowane. Najbliższa luka to pełny kontrakt Notifications po obu stronach API oraz domknięcie pozostałych scenariuszy. |
-| V5 | 80% | W toku | Implementacja deploymentu VPS, migracji, szyfrowanego backupu, rollbacku, monitoringu i protected staging smoke jest gotowa; formalny gate czeka na realny staging, off-host backup, restore drill i rollback evidence. |
-| V6 | 100% | Ukończony | Baseline'y API/EF/SQL, niezawodność outboxa, retry/dead-letter, metryki, timeouty SMTP, odporność frontendu i izolacja Compose zostały wydane w `v6.0.0`. |
-| V7 | 100% | Zaakceptowany tor MediatR ukończony; opcjonalne kierunki pozostają odroczone | Wszystkie 36 request/handler pairs w `Notifications`, `Projects` i `ProjectTasks` używa kanonicznego dispatchu, a guardrails sprawdzają unikalność, DI i `ISender`. |
-| V8 | 100% dla V8.0 | Source-template/scaffolding wydane; dalsza platformizacja jest opcjonalnym V8.1+ | Dwa niezależne warianty (`Minimal`/`Full`) przechodzą backend restore/build/test, frontend build, manifest validation i guardrails. NuGet, `dotnet new`, automatyczne aktualizacje i realne migracje pozostają poza V8.0. |
-
-**Postęp bazowej roadmapy V1-V7: 88%**.
-
-## Aktualna strategia wykonania
-
-Etapy pozostają mapą dojrzałości, ale praca przebiega w trzech torach:
-
-1. **Produkt i VSA:** utrzymywać prosty golden path i kontrakt Notifications,
-   następnie rozwijać macierz uprawnień i pojedyncze workflowy bez rozszerzania
-   zakresu zakończonej migracji MediatR.
-2. **Dowody V5:** staging, off-host backup, restore drill, rollback i alert test są
-   zbierane równolegle. Nie blokują lokalnego feature development, lecz blokują
-   deklarację production-ready.
-3. **V8:** source-template i minimalny scaffolding są już zweryfikowanym sposobem
-   tworzenia kolejnych consumerów. Dalsze automatyzowanie (pakiety, `dotnet new`,
-   aktualizacje wielu projektów) wymaga realnego użycia i nowych pomiarów.
-
-Szczegółowa kolejność znajduje się w
-[`../PRODUCT_EVOLUTION/DEVELOPMENT_PLAN.md`](../PRODUCT_EVOLUTION/DEVELOPMENT_PLAN.md).
-
-## Priorytety
-
-1. Backend i poprawność zachowania systemu.
-2. Testy, które dokumentują reguły oraz przypadki awarii.
-3. Dokumentacja techniczna i decyzje architektoniczne.
-4. Funkcjonalny frontend potrzebny do sprawdzania przepływów.
-5. Technologie dodatkowe tylko wtedy, gdy rozwiązują konkretny problem.
-
-Nie dodajemy Redis, kolejki, mikroserwisów, Kafki ani Kubernetes wyłącznie dla CV. Najpierw trzeba rozumieć ograniczenie, zmierzyć problem i uzasadnić koszt rozwiązania.
-
-## Kierunek organizacji funkcji
-
-Od V3 preferowanym kierunkiem jest hybrydowy modularny monolit:
-
-- moduł odpowiada za spójny obszar biznesowy;
-- vertical slice odpowiada za pojedynczy przypadek użycia, na przykład utworzenie albo odczyt zadania;
-- warstwy Domain, Application, Infrastructure i API opisują odpowiedzialności techniczne wewnątrz rozwiązania, ale nie zastępują granic biznesowych;
-- nowe większe przypadki użycia korzystają z zaakceptowanego standardu slice'a, gdy granica ich modułu jest już potwierdzona;
-- istniejący kod jest migrowany przy okazji realnej zmiany funkcjonalnej albo zaplanowanego pilota, a nie przez jednorazowe przepisywanie repozytorium;
-- jedna aplikacja, jeden `ApplicationDbContext` i jedna baza PostgreSQL pozostają domyślnym modelem do czasu pojawienia się mierzalnej potrzeby zmiany.
-
-Vertical Slice Architecture jest sposobem organizacji implementacji. Nie zastępuje modelowania domeny, transakcji, bezpieczeństwa, operacji ani pomiarów wydajności opisanych w kolejnych etapach.
-
-## Kolejność etapów
-
-### V1: Aktualny baseline
-
-Opisuje to, co już działa, oraz ograniczenia, które są świadomie przeniesione do kolejnych etapów.
-
-Dokument: [01_V1_JUNIOR_BASELINE.md](01_V1_JUNIOR_BASELINE.md)
-
-### V2: Stabilizacja i bezpieczeństwo
-
-Etap ukończony dla bieżącego zakresu. Obejmuje politykę sesji, refresh tokeny, rate limiting, lockout, konfigurację wdrożeniową, kontrakty błędów, cancellation i testy przypadków awarii.
-
-Dokument: [02_V2_STABILIZATION_AND_SECURITY.md](02_V2_STABILIZATION_AND_SECURITY.md)
-
-### V3: Domena, granice modułów, vertical slice pilot, transakcje i concurrency
-
-Etap w toku, ale backendowy pilot VSA został ukończony na trzech modułach. Pozostały
-zakres dotyczy dojrzalszych granic domeny, starszych modeli, transakcji, optimistic
-concurrency i spójności kontraktów, a nie mechanicznego przenoszenia kolejnych plików.
-
-Dokument: [03_V3_DOMAIN_TRANSACTIONS_AND_CONCURRENCY.md](03_V3_DOMAIN_TRANSACTIONS_AND_CONCURRENCY.md)
-
-Decyzja dotycząca granicy `ProjectTask`: [10_ADR_PROJECT_TASK_AGGREGATE_BOUNDARY.md](10_ADR_PROJECT_TASK_AGGREGATE_BOUNDARY.md)
-
-Decyzja dotycząca inkrementalnej modularizacji VSA: [11_ADR_INCREMENTAL_MODULAR_VSA.md](11_ADR_INCREMENTAL_MODULAR_VSA.md)
-
-Decyzja dotycząca inkrementalnej adopcji MediatR:
-[14_ADR_INCREMENTAL_MEDIATR_ADOPTION.md](14_ADR_INCREMENTAL_MEDIATR_ADOPTION.md)
-
-Standard modułów i slice'ów: [../MODULAR_VSA_MODULE_CHECKLIST.md](../MODULAR_VSA_MODULE_CHECKLIST.md)
-
-### V4: Kompletność produktu
-
-Domyka kontrakty i dowody dla istniejących workflowów użytkownika. Najbliższym
-inkrementem jest pełna spójność Notifications; nowe funkcje są dodawane pojedynczymi
-slice'ami, nie jako jeden szeroki pakiet V4.
-
-Dokument: [04_V4_PRODUCT_COMPLETENESS.md](04_V4_PRODUCT_COMPLETENESS.md)
-
-### V5: Deployment i operacje
-
-Dodaje wybrane środowisko hostingowe, sekrety, migracje, backup, rollback, monitoring i dokumentację wdrożeniową.
-
-Dokument: [05_V5_DEPLOYMENT_AND_OPERATIONS.md](05_V5_DEPLOYMENT_AND_OPERATIONS.md)
-
-### V6: Wydajność i niezawodność
-
-Wprowadza pomiary, testy obciążeniowe, analizę `EXPLAIN`, idempotencję, rozproszoną koordynację workerów i odporność na retry.
-
-Dokument: [06_V6_PERFORMANCE_AND_RELIABILITY.md](06_V6_PERFORMANCE_AND_RELIABILITY.md)
-
-### V7: Kontrolowana i opcjonalna ewolucja
-
-Obejmuje zaakceptowaną inkrementalną adopcję MediatR jako dispatchera command/query
-oraz pozostałe kierunki, które nadal wymagają konkretnej potrzeby produktu lub
-infrastruktury. MediatR nie zmienia granic modułów, nie zastępuje outboxa i nie
-uzasadnia masowego rewrite'u.
-
-Dokument: [07_V7_OPTIONAL_EVOLUTION.md](07_V7_OPTIONAL_EVOLUTION.md)
-
-### V8: Reusable Modular Starter / Platformization
-
-V8.0 potwierdził source-template, scaffolding, automatyczne guardrails, warianty
-projektu i strategię `regenerate-and-review` na dwóch niezależnych consumerach.
-Automatyczne aktualizacje, pakiety i pełne capability modułów pozostają opcjonalnym
-V8.1+. V8 nie jest wymagany do ukończenia bazowej aplikacji V1-V7.
-
-Dokument: [08_V8_REUSABLE_MODULAR_STARTER.md](08_V8_REUSABLE_MODULAR_STARTER.md)
-Gate: [V8_RELEASE_GATE.md](../V8_RELEASE_GATE.md), evidence:
-[V8_RELEASE_EVIDENCE.md](../V8_RELEASE_EVIDENCE.md)
-
-## Ogólna Definition of Done
-
-Dla każdego większego zadania wymagane są:
-
-- opis problemu i zakresu;
-- decyzja architektoniczna, jeśli zmienia się granica lub kontrakt;
-- implementacja backendu;
-- testy adekwatne do ryzyka;
-- aktualizacja dokumentacji;
-- walidacja builda i testów;
-- opis zachowania przy błędzie i częściowej awarii;
-- krótka odpowiedź na siedem pytań z [workflowu nauki](08_LEARNING_WORKFLOW.md).
-
-## Czego nie obiecuje ta roadmapa
-
-Roadmapa nie ma udawać doświadczenia zawodowego. Projekt domowy nie zastępuje:
-
-- utrzymania systemu przez dłuższy czas;
-- pracy zespołowej i code review;
-- realnych awarii produkcyjnych;
-- zmieniających się wymagań biznesowych;
-- odpowiedzialności za koszty i SLA.
-
-Jej celem jest stworzenie środowiska, w którym można przećwiczyć techniczne decyzje spotykane w takich systemach i nauczyć się je uzasadniać.
+# Roadmap BatchBridge
+
+## Cel
+
+To jest kanoniczny widok dalszego rozwoju BatchBridge. Oznaczenia V1-V8 opisują
+poziomy dojrzałości, a nie serię automatycznych kalendarzowych release'ów.
+
+BatchBridge pozostaje:
+
+- modularnym monolitem .NET z backendem ASP.NET Core;
+- typowanym frontendem React;
+- referencyjną bazą do nauki i ponownego użycia;
+- projektem, który oddziela stan kodu od dowodu działania na realnym środowisku.
+
+Roadmapa nie jest listą technologii do wdrożenia. Nowa zależność lub infrastruktura
+wymaga konkretnego problemu, prostszej alternatywy, kosztu utrzymania i mierzalnego
+kryterium sukcesu.
+
+## Aktualny stan
+
+Przegląd aktualny na **2026-11-21**.
+
+| Etap | Stan | Znaczenie dla kolejnego release'u |
+| --- | --- | --- |
+| V1 Fundament | Zrealizowany | Build, podstawowe workflowy, baza PostgreSQL i testy są częścią startera. |
+| V2 Bezpieczeństwo | Zrealizowany w repozytorium | Sesje, rotacja tokenów, 2FA, lockout, rate limiting i konfiguracja mają testy; hosting nadal wymaga walidacji środowiskowej. |
+| V3 Domena i VSA | Zrealizowany pilotaż | `Projects`, `ProjectTasks` i `Notifications` używają modułowych slice'ów; starsze obszary migrują się tylko przy realnej zmianie. |
+| V4 Kompletność produktu | Częściowo domknięty | Główne workflowy istnieją, ale kontrakt typów Notifications nie jest jeszcze zgodny między backendem i frontendem, a krytyczna macierz E2E wymaga kolejnych scenariuszy. |
+| V5 Operacje | Implementacja gotowa, dowód środowiskowy nieukończony | VPS, migracje, backup, restore, rollback i obserwowalność są przygotowane, lecz bez stagingu nie można deklarować produkcyjnego release'u. |
+| V6 Niezawodność | Zrealizowany dla udokumentowanego zakresu | Baseline, indeks paginacji, idempotencja, outbox leasing, metryki i odporność frontendu mają zapisaną metodę powtórzenia. |
+| V7 Ewolucja architektury | Zrealizowany tor MediatR | Moduły produkcyjne używają `ISender` i `IRequestHandler`; pozostałe kierunki są opcjonalne. |
+| V8 Reusable starter | Zrealizowany V8.0 | Warianty template'u i generatory mają proof. Pakiety, automatyczne aktualizacje i większe moduły capability pozostają poza zakresem. |
+
+## Priorytet kolejnego cyklu
+
+1. **Tożsamość i dokumentacja release'u.** README, changelog, release checklist i
+   linki mają wskazywać BatchBridge oraz bieżące repozytorium.
+2. **Kontrakt Notifications.** Dwanaście typów backendu musi mieć jawne zachowanie
+   frontendu i fallback dla nieznanego przyszłego typu.
+3. **Autoryzacja i E2E.** Utrzymać macierz uprawnień oraz dodać testy tylko dla
+   krytycznych workflowów, których obecne scenariusze nie pokrywają.
+4. **Dowody V5.** Staging, backup off-host, restore, alert i rollback są osobną
+   bramką środowiskową, nie przeszkodą dla lokalnych zmian funkcjonalnych.
+5. **V8.1 tylko po użyciu.** `dotnet new`, pakiety i automatyczne aktualizacje mają
+   sens dopiero po zebraniu kosztu realnego użycia startera.
+
+## Reguły planowania
+
+Każda zmiana produktowa potrzebuje:
+
+- konkretnego aktora i problemu;
+- właściciela danych oraz reguły;
+- granicy transakcji i zachowania przy concurrency;
+- publicznego kontraktu oraz meaningful failure paths;
+- najtańszego testu odrzucającego hipotezę;
+- obserwowalności, rollout i rollback, jeśli dotyczy;
+- aktualizacji dokumentacji razem ze zmianą.
+
+Większą propozycję opisz w
+[`../FEATURE_PROPOSAL_TEMPLATE.md`](../FEATURE_PROPOSAL_TEMPLATE.md), a implementację
+prowadź według [`../ADDING_FEATURES.md`](../ADDING_FEATURES.md).
+
+## Dokumenty milestone'ów
+
+Dokumenty poniżej są archiwami zakresu i decyzji. Nie są dowodem aktualnej
+gotowości release'u; ten dowód powstaje według
+[`../RELEASE_PROCESS.md`](../RELEASE_PROCESS.md).
+
+| Etap | Dokument |
+| --- | --- |
+| V1 | [01_V1_JUNIOR_BASELINE.md](01_V1_JUNIOR_BASELINE.md) |
+| V2 | [02_V2_STABILIZATION_AND_SECURITY.md](02_V2_STABILIZATION_AND_SECURITY.md) |
+| V3 | [03_V3_DOMAIN_TRANSACTIONS_AND_CONCURRENCY.md](03_V3_DOMAIN_TRANSACTIONS_AND_CONCURRENCY.md) |
+| V4 | [04_V4_PRODUCT_COMPLETENESS.md](04_V4_PRODUCT_COMPLETENESS.md) |
+| V5 | [05_V5_DEPLOYMENT_AND_OPERATIONS.md](05_V5_DEPLOYMENT_AND_OPERATIONS.md) |
+| V6 | [06_V6_PERFORMANCE_AND_RELIABILITY.md](06_V6_PERFORMANCE_AND_RELIABILITY.md) |
+| V7 | [07_V7_OPTIONAL_EVOLUTION.md](07_V7_OPTIONAL_EVOLUTION.md) |
+| V8 | [08_V8_REUSABLE_MODULAR_STARTER.md](08_V8_REUSABLE_MODULAR_STARTER.md) |
+
+## Decyzje zachowane
+
+- [Granica agregatu `ProjectTask`](10_ADR_PROJECT_TASK_AGGREGATE_BOUNDARY.md)
+- [Inkrementalna modularizacja VSA](11_ADR_INCREMENTAL_MODULAR_VSA.md)
+- [Inkrementalna adopcja MediatR](14_ADR_INCREMENTAL_MEDIATR_ADOPTION.md)
+- [Dystrybucja source-template](15_ADR_SOURCE_TEMPLATE_DISTRIBUTION.md)
+- [Polityka sesji](09_ADR_AUTH_SESSION_POLICY.md)
+- [Ochrona przed brute force](09_ADR_AUTH_BRUTE_FORCE_PROTECTION.md)
+
+Standard wykonawczy dla nowych slice'ów znajduje się w
+[`../MODULAR_VSA_MODULE_CHECKLIST.md`](../MODULAR_VSA_MODULE_CHECKLIST.md).

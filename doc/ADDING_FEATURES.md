@@ -60,7 +60,7 @@ Nie każdy slice potrzebuje osobnego store'a, migracji, eventu, workera, ekranu 
 wszystkich katalogów. `N/A` jest poprawną decyzją, jeśli ma krótkie uzasadnienie.
 
 Jeśli zmiana wprowadza nową granicę, workflow albo trwały kontrakt, zacznij od
-[`PRODUCT_EVOLUTION/FEATURE_PROPOSAL_TEMPLATE.md`](PRODUCT_EVOLUTION/FEATURE_PROPOSAL_TEMPLATE.md).
+[`FEATURE_PROPOSAL_TEMPLATE.md`](FEATURE_PROPOSAL_TEMPLATE.md).
 
 ## MediatR Transition Policy
 
@@ -460,7 +460,7 @@ W zależności od typu zmiany przejdź dalej do odpowiedniego pliku:
 - `doc/FRONTEND_SETUP.md` - bootstrap UI, routing i warstwa klienta API
 - `doc/JWT_ARCHITECTURE.md` - model sesji i bezpieczeństwo tokenów
 - `doc/EMAIL_2FA_FLOWS.md` - szczegółowe flow email confirmation, 2FA i password reset
-- `doc/PRODUCT_EVOLUTION/DEVELOPMENT_PLAN.md` - kolejność najbliższych inkrementów
-- `doc/PRODUCT_EVOLUTION/FEATURE_PROPOSAL_TEMPLATE.md` - decyzja przed większym feature'em
+- `doc/ROADMAP/00_ROADMAP_OVERVIEW.md` - aktualne priorytety i status milestone'ów
+- `doc/FEATURE_PROPOSAL_TEMPLATE.md` - decyzja przed większym feature'em
 - `doc/MODULAR_VSA_MODULE_CHECKLIST.md` - Definition of Done modułu i slice'a
 - `doc/ROADMAP/14_ADR_INCREMENTAL_MEDIATR_ADOPTION.md` - reguły i kolejność adopcji MediatR

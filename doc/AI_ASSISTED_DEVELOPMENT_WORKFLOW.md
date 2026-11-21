@@ -57,7 +57,7 @@ Ustal:
 - elementy poza zakresem.
 
 Dla większego feature'a użyj
-[`FEATURE_PROPOSAL_TEMPLATE.md`](PRODUCT_EVOLUTION/FEATURE_PROPOSAL_TEMPLATE.md).
+[`FEATURE_PROPOSAL_TEMPLATE.md`](FEATURE_PROPOSAL_TEMPLATE.md).
 
 ### 3. Porównaj maksymalnie kilka wariantów
 
@@ -117,5 +117,5 @@ Po zakończeniu użytkownik powinien odpowiedzieć:
 4. Jak zachowuje się system przy braku uprawnień, retry i concurrency?
 5. Który test najszybciej wykryje regresję?
 
-Plan kolejnych inkrementów znajduje się w
-[`PRODUCT_EVOLUTION/DEVELOPMENT_PLAN.md`](PRODUCT_EVOLUTION/DEVELOPMENT_PLAN.md).
+Aktualne priorytety i status milestone'ów znajdują się w
+[`ROADMAP/00_ROADMAP_OVERVIEW.md`](ROADMAP/00_ROADMAP_OVERVIEW.md).

@@ -6,23 +6,25 @@ V6 uczy optymalizacji na podstawie pomiarów oraz projektowania odporności na r
 
 ## Status realizacji
 
-Stan na: **2026-09-25**.
+Stan zakresu V6: zrealizowany i powtarzalny od **2026-09-25**.
 
-| Obszar | Postęp | Status i dowód |
+| Obszar | Stan | Status i dowód |
 |---|---:|---|
-| 1. Baseline i pomiary | 85% | Protokół, runner oraz opt-in test authenticated API baseline'u są przygotowane w `doc/V6_BASELINE.md`, `scripts/Measure-ApiBaseline.ps1` i `doc/V6_LARGE_FIXTURE_API_BASELINE.md`; istnieje powtarzalny pomiar 10 000 zadań z p50/p95/p99, error rate, payloadem, throughputem, czasem EF oraz raportem before/after dla pierwszego indeksu. |
-| 2. EF Core i PostgreSQL | 70% | Istnieją plany PostgreSQL, rzeczywisty wygenerowany SQL EF, liczba round-tripów i rozdzielenie czasu EF od czasu HTTP; pierwszy indeks paginacji został dodany dopiero po pozytywnym pomiarze before/after. |
-| 3. Cache | 0% | Brak uzasadnionego przypadku cache wymagającego implementacji. |
-| 4. Idempotencja i retry | 55% | Powiadomienia mają jawny kontrakt `userId + deduplicationKey`, ochronę przed wyścigiem zapisu oraz outbox z warunkowym claim/lease, retry i dead-letter po trzeciej porażce; HTTP idempotency keys oraz provider-level email idempotency pozostają poza zakresem. |
-| 5. Background processing | 85% | Outbox ma atomowy claim PostgreSQL, pięciominutowy lease, odzyskiwanie wygasłych rekordów, warunkowe finalizowanie, jawny dead-letter status oraz trzy gauge metrics dla kolejki; SMTP ma jawnie ograniczony timeout 1–300 sekund; provider delivery receipts pozostają do wykonania. |
-| 6. Frontend request coordination | 85% | `HttpClient` ma single-flight refresh, lista zadań anuluje poprzednie requesty i odrzuca spóźnione odpowiedzi, a aplikacja pokazuje offline status i retry dla task-list read; automatyczne retry mutacji oraz pozostałe read flows pozostają poza kontraktem. |
+| 1. Baseline i pomiary | Zrealizowane | Protokół, runner oraz opt-in test authenticated API baseline'u są przygotowane w `doc/V6_BASELINE.md`, `scripts/Measure-ApiBaseline.ps1` i `doc/V6_LARGE_FIXTURE_API_BASELINE.md`; istnieje powtarzalny pomiar 10 000 zadań z p50/p95/p99, error rate, payloadem, throughputem, czasem EF oraz raportem before/after dla pierwszego indeksu. |
+| 2. EF Core i PostgreSQL | Zrealizowane | Istnieją plany PostgreSQL, rzeczywisty wygenerowany SQL EF, liczba round-tripów i rozdzielenie czasu EF od czasu HTTP; pierwszy indeks paginacji został dodany dopiero po pozytywnym pomiarze before/after. |
+| 3. Cache | N/A | Brak uzasadnionego przypadku cache wymagającego implementacji. |
+| 4. Idempotencja i retry | Zrealizowane w zakresie V6 | Powiadomienia mają jawny kontrakt `userId + deduplicationKey`, ochronę przed wyścigiem zapisu oraz outbox z warunkowym claim/lease, retry i dead-letter po trzeciej porażce; HTTP idempotency keys oraz provider-level email idempotency pozostają poza zakresem. |
+| 5. Background processing | Zrealizowane w zakresie V6 | Outbox ma atomowy claim PostgreSQL, pięciominutowy lease, odzyskiwanie wygasłych rekordów, warunkowe finalizowanie, jawny dead-letter status oraz trzy gauge metrics dla kolejki; SMTP ma jawnie ograniczony timeout 1–300 sekund; provider delivery receipts pozostają do wykonania. |
+| 6. Frontend request coordination | Zrealizowane w zakresie V6 | `HttpClient` ma single-flight refresh, lista zadań anuluje poprzednie requesty i odrzuca spóźnione odpowiedzi, a aplikacja pokazuje offline status i retry dla task-list read; automatyczne retry mutacji oraz pozostałe read flows pozostają poza kontraktem. |
 
-**Postęp V6: 70% — release candidate dla zdefiniowanego zakresu; elementy wymienione jako explicit exclusions nie są ukrytymi blockerami.**
+**V6: 100% dla zaakceptowanego zakresu.** Elementy wymienione jako explicit
+exclusions nie są ukrytymi blockerami.
 
 Formalny checklist release'u, wymagane dowody oraz świadomie odłożone elementy
 opisuje [`doc/V6_RELEASE_GATE.md`](../V6_RELEASE_GATE.md).
-Zapis wykonanych kontroli i zmergowanych slice'ów znajduje się w
-[`doc/V6_RELEASE_EVIDENCE.md`](../V6_RELEASE_EVIDENCE.md).
+Szczegółowe benchmarki, plany zapytań i kontrakty niezawodności pozostają w
+dokumentach `V6_*` i są ponawiane na kandydacie według
+[`../V6_RELEASE_GATE.md`](../V6_RELEASE_GATE.md).
 
 V6 rozpoczęto od wyboru scenariuszy, danych testowych i mierzalnego kryterium
 sukcesu; kolejne slice'y zachowały tę samą zasadę measurement-first.

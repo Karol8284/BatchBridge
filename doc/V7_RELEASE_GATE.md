@@ -81,8 +81,9 @@ Before tagging V7:
 4. resolve review comments that would change the documented contracts;
 5. merge through the repository's required checks.
 
-The local evidence document must be updated with the merged commit, pull
-request, CI run and Docker result before creating `v7.0.0`.
+The release record described in [`RELEASE_PROCESS.md`](RELEASE_PROCESS.md) must
+identify the tested commit, CI run and Docker result for any release that
+repeats the V7 migration claim.
 
 ## Explicit exclusions
 

@@ -1,16 +1,15 @@
-# V8 Release Evidence
+# V8 Scaffolding Proof
 
-This record captures the V8.0 source-template and scaffolding proof. It
-complements [`V8_RELEASE_GATE.md`](V8_RELEASE_GATE.md) and does not replace the
-V5 runtime, backup, restore or promotion evidence.
+This record captures the V8.0 source-template and scaffolding proof dated
+2026-09-26. It complements [`V8_RELEASE_GATE.md`](V8_RELEASE_GATE.md) and is a
+historical engineering proof, not a substitute for evidence collected against
+the current release candidate.
 
-## Release candidate status
+## Proof record
 
 | Item | Value |
 | --- | --- |
 | Validation date | 2026-09-26 |
-| Release commit | To be recorded after merge |
-| Pull request | To be recorded after creation |
 | Proof output | `artifacts\v8\generated-run\proof.json` (ignored by Git) |
 | Template version | `8.0.0` |
 | Distribution | `source-template` |
@@ -84,12 +83,8 @@ and is an engineering proof measure, not a production performance claim.
 - Local Docker/Testcontainers evidence is not required for this schema-free
   template proof.
 
-## Final release record
+## Release usage
 
-Complete after the pull request is merged:
-
-- merged commit SHA: `TBD`;
-- pull request: `TBD`;
-- required CI run: `TBD`;
-- proof artifact revision: `TBD`;
-- tag: `TBD`.
+Run the proof again for a release candidate that changes the template or one of
+the V8 generators. Record the exact commit, CI run and `proof.json` in the
+release evidence described by [`RELEASE_PROCESS.md`](RELEASE_PROCESS.md).

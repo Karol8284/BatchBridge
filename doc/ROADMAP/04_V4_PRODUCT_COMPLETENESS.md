@@ -6,25 +6,24 @@ V4 domyka funkcje, które są ważne dla użytecznego produktu, ale nie powinny 
 
 Frontend pozostaje funkcjonalny i podporządkowany backendowi. Nie celem jest budowa osobnego portfolio frontendowego.
 
-Szczegółowa kolejność branchy, zależności, kontrakty startowe i bramki walidacyjne są
-opisane w [13_V4_IMPLEMENTATION_PLAN.md](13_V4_IMPLEMENTATION_PLAN.md).
+Aktualny stan zdarzeń produktu jest zapisany w
+[V4_EVENT_MATRIX.md](V4_EVENT_MATRIX.md).
 
 ## Status realizacji
 
-Stan na: **2026-09-21**.
+Stan sprawdzony statycznie na: **2026-11-21**.
 
-| Obszar | Postęp | Status i dowód |
+| Obszar | Stan | Status i dowód |
 |---|---:|---|
-| 1. Account security audit | 80% | `AccountSecurityEvent` i administracyjny read model istnieją. Pozostaje przegląd kompletności zdarzeń, prywatności metadanych i runtime evidence. |
-| 2. Auth lockout UX | 75% | Backendowy lockout, neutralne błędy oraz frontendowa obsługa `401`/`429` istnieją; pozostaje domknięcie scenariuszy czasu odblokowania i regresji browser E2E. |
-| 3. Global workspace search | 85% | Autoryzowany `SearchWorkspace` endpoint i osobny read path istnieją; pozostaje potwierdzenie kompletnej macierzy uprawnień i zachowania przy większym zbiorze. |
-| 4. Załączniki jako funkcja produkcyjna | 85% | Local/S3 storage, quota, content validation, cleanup, reconciliation i opcjonalny ClamAV są zaimplementowane. V5 nadal wymaga restore i operacyjnego evidence na realnym środowisku. |
-| 5. Kompletność activity i notifications | 70% | Trwałe notifications, activity, deduplication key i email outbox istnieją. Backend ma szerszy katalog typów niż frontend; to najbliższa luka kontraktu. |
-| 6. Browser E2E | 75% | Playwright obejmuje auth/2FA/logout, projekt i zadanie, viewer read-only oraz konflikt concurrency. Pozostają wybrane ścieżki odzyskiwania konta i domknięcie macierzy zdarzeń. |
+| 1. Account security audit | Zrealizowane w kodzie | `AccountSecurityEvent` i administracyjny read model istnieją; runtime i retencja pozostają decyzją środowiskową. |
+| 2. Auth lockout UX | Zrealizowane w kodzie | Backendowy lockout, neutralne błędy oraz frontendowa obsługa `401`/`429` istnieją. |
+| 3. Global workspace search | Zrealizowane w kodzie | Autoryzowany `SearchWorkspace` endpoint i osobny read path istnieją. |
+| 4. Załączniki | Zrealizowane, operacyjny proof oczekuje | Local/S3 storage, quota, content validation, cleanup, reconciliation i opcjonalny ClamAV istnieją; V5 wymaga restore i dowodu na realnym środowisku. |
+| 5. Activity i notifications | Brak domknięcia kontraktu | Backend publikuje dwanaście typów, a frontend jawnie modeluje sześć; istnieje też brak scenariusza browser E2E dla nowych zdarzeń. |
+| 6. Browser E2E | Baseline zrealizowany | Playwright obejmuje auth, projekt, zadanie, viewer read-only i concurrency; krytyczna macierz nie jest kompletna. |
 
-**Postęp V4: 78%**.
-
-Procent jest średnią głównych obszarów V4 i opisuje gotowość do dalszej realizacji, a nie kompletność obecnych ekranów.
+V4 pozostaje niezamkniętym etapem dla kontraktu Notifications i wybranych testów
+browserowych. Nie oznacza to ponownej implementacji działających workflowów.
 
 ## Stan wyjściowy
 
@@ -80,8 +79,8 @@ plan zapytania i macierz uprawnień.
 
 ### 4. Załączniki jako funkcja produkcyjna
 
-Szczegółowa kolejność wdrożenia i decyzje graniczne znajdują się w
-`12_ATTACHMENT_HARDENING_PLAN.md`.
+Szczegółowy kontrakt operacyjny znajduje się w
+[`../ATTACHMENT_OPERATIONS.md`](../ATTACHMENT_OPERATIONS.md).
 
 Backend i frontendowa obsługa, local/S3 storage, quota, walidacja zawartości, cleanup,
 reconciliation oraz opcjonalny ClamAV już istnieją. Do zamknięcia pozostają:

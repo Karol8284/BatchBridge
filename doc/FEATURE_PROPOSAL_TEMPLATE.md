@@ -3,7 +3,6 @@
 ## Status
 
 - Stan: `draft`
-- Autor:
 - Data:
 - Powiązany etap roadmapy:
 - Powiązany ADR:
@@ -42,7 +41,7 @@ Dozwolone stany: `draft`, `proposed`, `accepted`, `implemented`, `rejected`.
 
 **Jawne zależności do innych modułów:**
 
-**Dlaczego ta granica wynika z domeny:**
+**Dlaczego granica wynika z domeny:**
 
 ## 4. Niezmienniki i dane
 
@@ -56,8 +55,7 @@ Opisz migrację, backfill i kompatybilność wsteczną albo zaznacz `N/A`.
 
 - Typ: `command` / `query`
 - Nazwa slice'a:
-- Dispatch: `MediatR` przez `ISender`/`IRequestHandler` (nowy slice) albo jawny
-  wyjątek przejściowy zapisany w ADR 14:
+- Dispatch: `MediatR` przez `ISender` i `IRequestHandler`
 - Stan początkowy:
 - Warunek sukcesu:
 - Dozwolone przejścia:
@@ -163,5 +161,5 @@ Elementy niedotyczące feature'a oznacz jako `N/A`; nie twórz pustych testów.
 - Warunki przejścia do `accepted`:
 
 Przed implementacją sprawdź
-[`ADDING_FEATURES.md`](../ADDING_FEATURES.md) i
-[`MODULAR_VSA_MODULE_CHECKLIST.md`](../MODULAR_VSA_MODULE_CHECKLIST.md).
+[`ADDING_FEATURES.md`](ADDING_FEATURES.md) i
+[`MODULAR_VSA_MODULE_CHECKLIST.md`](MODULAR_VSA_MODULE_CHECKLIST.md).
