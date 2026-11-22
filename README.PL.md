@@ -1,6 +1,6 @@
-# .NET React Starter
+# BatchBridge
 
-[![CI](https://github.com/Karol-Malecki-dev/dotnet-react-starter/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Karol-Malecki-dev/dotnet-react-starter/actions/workflows/ci.yml)
+[![CI](https://github.com/Karol8284/BatchBridge/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Karol8284/BatchBridge/actions/workflows/ci.yml)
 [![Licencja: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![.NET 9](https://img.shields.io/badge/.NET-9.0-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=20232A)](https://react.dev/)
@@ -170,8 +170,8 @@ kontenerowe korzystają z Node.js 22.
 W katalogu głównym repozytorium:
 
 ```powershell
-git clone https://github.com/Karol-Malecki-dev/dotnet-react-starter.git
-Set-Location dotnet-react-starter
+git clone https://github.com/Karol8284/BatchBridge.git
+Set-Location BatchBridge
 Copy-Item .env.example .env
 docker compose up --build
 ```
@@ -464,7 +464,7 @@ jak kodu aplikacji przeczytaj
 | Przejrzeć bramy wydajności i niezawodności | [V6_RELEASE_GATE.md](doc/V6_RELEASE_GATE.md) |
 | Przejrzeć release reusable startera | [V8_RELEASE_GATE.md](doc/V8_RELEASE_GATE.md) |
 | Poznać szerszy roadmap produktu | [ROADMAP/00_ROADMAP_OVERVIEW.md](doc/ROADMAP/00_ROADMAP_OVERVIEW.md) |
-| Przejrzeć zapisane evidence release'u | [RELEASE_READINESS_AUDIT.md](doc/Audits/RELEASE_READINESS_AUDIT.md) |
+| Przygotować i udokumentować release | [RELEASE_PROCESS.md](doc/RELEASE_PROCESS.md) |
 
 Zasady inżynierskie repozytorium opisują
 [.github/copilot-instructions.md](.github/copilot-instructions.md) oraz
@@ -478,6 +478,9 @@ backend-specific [backend.instructions.md](.github/instructions/backend.instruct
   automatyczną platformą multi-region ani dystrybucją Kubernetes.
 - Template V8 jest bazą kopiowaną jako source. Consumerzy posiadają własny kod
   i aktualizują go przez review.
+- Istniejące identyfikatory Compose, obrazów i VPS zachowują odziedziczoną nazwę
+  `dotnet-react-starter-*`, tam gdzie ich zmiana wymagałaby migracji operatora.
+  Tożsamość repozytorium i linki release'owe wskazują BatchBridge.
 - Smoke testy obejmują krytyczną dostępność i ścieżki użytkownika, ale nie
   wszystkie reguły biznesowe ani profile ruchu produkcyjnego.
 

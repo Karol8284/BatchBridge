@@ -46,8 +46,8 @@ Pilotaż VSA nie wymaga kolejnej masowej migracji. Dalsza praca powinna:
    obowiązkowy guardrail.
 
 Golden path implementacyjny opisuje
-[`../ADDING_FEATURES.md`](../ADDING_FEATURES.md), a kolejność funkcji
-[`../PRODUCT_EVOLUTION/DEVELOPMENT_PLAN.md`](../PRODUCT_EVOLUTION/DEVELOPMENT_PLAN.md).
+[`../ADDING_FEATURES.md`](../ADDING_FEATURES.md), a aktualne priorytety
+[`00_ROADMAP_OVERVIEW.md`](00_ROADMAP_OVERVIEW.md).
 
 ## Zakres implementacyjny
 
